@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -8,7 +15,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="headline/headline"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,7 +77,12 @@ ZSH_THEME="headline/headline"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions vi-mode wd)
+plugins=(
+  git
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  fzf
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,25 +115,42 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+export EDITOR=nvim
+export BROWSER=zen-browser
+
 # SSH fix for Kitty terminal
 [ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
 
-export EDITOR=nvim
-export BROWSER=firefox
 
-# Vi-Mode Settings
-export VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=ture
-export VI_MODE_SET_CURSOR=true
-
-export PATH=$PATH:/home/alarm/.spicetify
+# ENVs
+path+=($HOME/.bun/bin $HOME/.cargo/bin)
+export PATH
 . "$HOME/.local/bin/env"
-. "$HOME/.cargo/env"
 
-alias hl='$EDITOR ~/.config/hypr/hyprland.conf'
-alias icat='kitty icat'
+# Alias
+alias ls='eza --icons --group-directories-first'
+alias ll='eza -l --icons --grid --group-directories-first'
+alias l='eza -la'
 alias cat='bat'
-alias ls='lsd'
-alias ll='lsd -l'
-alias la='lsd -a'
-alias lg='lazygit'
-alias gcca='gcc -fno-asynchronous-unwind-tables -fno-exceptions -fverbose-asm -Wall -Wextra -S'
+alias grep='rg'
+alias fl='yazi'
+alias lg="lazygit"
+alias top='btop'
+alias nv="nvim"
+
+
+eval "$(zoxide init zsh)"
+alias cd='z'
+
+
+# bun completions
+[ -s "/home/blankpower/.bun/_bun" ] && source "/home/blankpower/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export PATH=$PATH:/home/blankpower/.spicetify
