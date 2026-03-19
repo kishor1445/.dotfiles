@@ -133,6 +133,9 @@ hyprland_essentials() {
     if [ "$SHELL" != "/bin/zsh" ]; then
        chsh -s /bin/zsh
     fi
+    if [ ! -d "$HOME/.oh-my-zsh/" ]; then
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    fi
     systemctl --user enable --now pipewire wireplumber
     sudo systemctl enable sddm
     install_package mako qt5-wayland qt6-wayland adobe-source-sans-fonts cliphist 
