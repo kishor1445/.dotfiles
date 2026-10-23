@@ -20,7 +20,7 @@ is_sudo_installed() {
 create_user() {
     groupadd sudo || true
     useradd -m -G sudo "$USERNAME"
-    echo "$USERNAME:$PASSWORD" || chpasswd # BUG: Password didn't set properly
+    echo "$USERNAME:$PASSWORD" | chpasswd
 }
 
 install_sudo() {
